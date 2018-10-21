@@ -31,3 +31,41 @@ def init():
 	GPIO.setup(right_dir_2_pin, GPIO.OUT)
 	
 	nowSpeed = 0
+
+def direction(lewa_kierunek, prawa_kierunek):
+	#Kierunek: 1 - do przodu, 0 - do tyłu
+	if lewa_kierunek == 1:
+		GPIO.output(left_dir_1_pin, GPIO.HIGH)
+		GPIO.output(left_dir_1_pin, GPIO.LOW)
+	if lewa_kierunek == 0:
+		GPIO.output(left_dir_1_pin, GPIO.LOW)
+		GPIO.output(left_dir_2_pin, GPIO.HIGH)
+	if prawa_kierunek == 1:
+		GPIO.output(right_dir_1_pin, GPIO.HIGH)
+		GPIO.output(right_dir_2_pin, GPIO.LOW)
+	if prawa_kierunek == 0:
+		GPIO.output(right_dir_1_pin, GPIO.LOW)
+		GPIO.output(right_dir_2_pin, GPIO.HIGH)
+		
+	
+def drive(predkosc, kierunek):
+	#predkosc zakres: 0-100. Kierunek: 1 - do przodu, 0 - do tyłu
+	#ustawienie odpowiednich kierunków
+	if kierunek == 1:
+		direction(1, 1)
+	if kierunek == 0:
+		direction(0, 0)
+	#wysterowanie prędkosc - z narastaniem
+	speed_change = predkosc - nowSpeed
+	speed_change_step = 1 #dodatki skok prędkosci jesli robot przyśpiesza
+	if speed_change < 0:
+		#Przy rozpędzaniu robota ta różnica jest dodatnia, ale przy hamowaniu już jest ujemna, więc dla pętli trzeba ją zrobić na plus. To samo ze skokiem prędkości
+		speed_change = speed_change * (-1)
+		speed_change_step = -1
+	for x in range(x, speed_change, 1):
+		nowSpeed = nowSpeed + speed_change_step #obliczenie aktualnej prędkości
+		left_side.ChangeDutyCycle(nowSpeed)
+		right_side.ChangeDutyCycle(nowSpeed)
+		time.sleep(.2) #delay między następnym skokiem prędkośći 2 ms.
+		
+		
