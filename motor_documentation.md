@@ -1,0 +1,3 @@
+#Moduł motor - dokumentacja
+
+##Funkcje:
