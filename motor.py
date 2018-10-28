@@ -14,6 +14,10 @@ right_dir_2_pin = 20
 
 def init():
 	#Funkcja inicjująca działanie pozostałych funkcji. Wymagana do uruchomienia!
+	global initialized
+	if initialized:
+		return
+
 	GPIO.setmode(GPIO.BCM) 
 	GPIO.setwarnings(False)
 	GPIO.setup(left_speed_pin, GPIO.OUT)
@@ -31,6 +35,8 @@ def init():
 	GPIO.setup(right_dir_2_pin, GPIO.OUT)
 	
 	nowSpeed = 0
+
+	initialized = True
 
 def direction(lewa_kierunek, prawa_kierunek):
 	#Kierunek: 1 - do przodu, 0 - do tyłu
