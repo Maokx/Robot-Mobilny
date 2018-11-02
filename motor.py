@@ -73,5 +73,6 @@ def drive(predkosc, kierunek):
 		left_side.ChangeDutyCycle(nowSpeed)
 		right_side.ChangeDutyCycle(nowSpeed)
 		time.sleep(.2) #delay między następnym skokiem prędkośći 2 ms.
+		#witam
 		
 		
